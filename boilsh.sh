@@ -40,6 +40,7 @@ main()
 
     touch "${1}"
     echo "${boilerplate}" > "${1}"
+    chmod +x "${1}"
 }
 
 main "${@}"
