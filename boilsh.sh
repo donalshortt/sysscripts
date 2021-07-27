@@ -1,1 +1,1 @@
-/usr/local/bin/boilsh
+../../../../usr/local/bin/boilsh
