@@ -1,20 +1,11 @@
 usage()
 {
-    echo "This is how to use the script"
+    echo "Creates symbolic links for dotfiles so they can all be stored in a single directory"
+    echo "Requires .files to be present in the home directory"
 }
 
-main()
+linkfiles()
 {
-    while getopts ":h" options; do
-        case "${options}" in
-        h)
-            usage
-            exit 0
-            ;;
-        esac
-    done
-    shift "$((OPTIND - 1))"
-
     if [ -e "/home/donal/.config/bspwm" ]; then
 	    ln -sf /home/donal/.files/bspwmrc /home/donal/.config/bspwm/bspwmrc
 	    echo "Linked bspwmrc"
@@ -44,7 +35,23 @@ main()
 
     ln -sf /home/donal/.files/zsh_aliases /home/donal/.zsh_aliases
     echo "Linked zsh aliases"
+}
 
+main()
+{
+    while getopts ":h" options; do
+        case "${options}" in
+        h)
+            usage
+            exit 0
+            ;;
+        esac
+    done
+    shift "$((OPTIND - 1))"
+
+    linkfiles
+
+    echo "Done!"
 }
 
 main "${@}"
