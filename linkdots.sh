@@ -27,6 +27,9 @@ linkfiles()
 	    echo "Linked nvim"
     fi
 
+    ln -sf /home/donal/.files/coc-settings.json /home/donal/.config/nvim/coc-settings.json
+    echo "Linked Coc settings"
+
     ln -sf /home/donal/.files/kitty.conf /home/donal/.config/kitty/kitty.conf
     echo "Linked kitty"
 
