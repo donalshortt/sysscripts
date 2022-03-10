@@ -1,4 +1,8 @@
-boilerplate='usage()
+#!/bin/sh
+
+boilerplate='#!/bin/sh
+
+usage()
 {
     echo "This is how to use the script"
 }

@@ -1,3 +1,5 @@
+#!/bin/sh
+
 usage()
 {
     echo "Creates symbolic links for dotfiles so they can all be stored in a single directory"
