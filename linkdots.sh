@@ -21,6 +21,8 @@ linkfiles()
     if [ -e "/home/donal/.config/polybar" ]; then
 	    ln -sf /home/donal/.files/polybar_config /home/donal/.config/polybar/config
 	    echo "Linked polybar"
+    else
+        echo "Did not link polybar"
     fi
 
     if [ ! -e "/home/donal/.config/nvim" ]; then
