@@ -42,6 +42,9 @@ linkfiles()
 
     ln -sf /home/donal/.files/zsh_aliases /home/donal/.zsh_aliases
     echo "Linked zsh aliases"
+
+    ln -sf /home/donal/.files/rofi_config.rasi /home/donal/.config/rofi/config.rasi
+    echo "Linked rofi config"
 }
 
 main()
