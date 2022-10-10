@@ -34,8 +34,9 @@ configure_monitors()
                 --output DP-2 --mode 1920x1080 --right-of HDMI-2 --rotate right
             ;;
 
-        squilliam)
-            # Set output to 1920x1080
+        krustykrab)
+            xrandr --output eDP-1 --mode 1920x1080 --rotate normal \
+				--output DP-1 --mode 1920x1080 --rotate normal --above eDP-1
             ;;
 
         *) 
@@ -56,7 +57,15 @@ configure_desktops()
             ;;
 
         krustykrab)
-            bspc monitor eDP-1 -d 1 2 3 4 5
+			connected=$(xrandr | grep "DP-1 connected" | grep -v "eDP-1")
+
+			if [[ $connected != "" ]]
+			then
+            	bspc monitor eDP-1 -d 5 6 7 8 
+				bspc monitor DP-1 -d 1 2 3 4
+			else
+				bspc monitor eDP-1 -d 1 2 3 4 5
+			fi
 			;;
         
 		*) 
