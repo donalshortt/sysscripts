@@ -29,16 +29,17 @@ configure_monitors()
 {
     case $HOSTNAME in
         squidward) 
-            xrandr --output DP-1 --mode 1920x1080 --rotate normal \
-                --output HDMI-2 --primary --mode 1920x1080 --right-of DP-1 --rotate normal \
-                --output DP-2 --mode 1920x1080 --right-of HDMI-2 --rotate left
+            xrandr --output HDMI-1 --mode 1920x1080 --rotate normal \
+                --output HDMI-2 --primary --mode 1920x1080 --right-of HDMI-1 --rotate normal \
+                --output DP-2 --mode 1920x1080 --right-of HDMI-2 --rotate right
             ;;
 
         squilliam)
             # Set output to 1920x1080
             ;;
 
-        *) echo "No special monitor configuration required"
+        *) 
+            echo "No special monitor configuration required"
             ;;
     esac
         
@@ -49,9 +50,9 @@ configure_desktops()
 {
     case $HOSTNAME in
         squidward)
-            bspc monitor DP-1 -d 1 4 7
-            bspc monitor HDMI-2 -d 2 5 8
-            bspc monitor DP-2 -d 3 6 9
+            bspc monitor HDMI-1 -d 1 2 3
+            bspc monitor HDMI-2 -d 4 5 6
+            bspc monitor DP-2 -d 7 8 9
             ;;
 
         *) echo "No special desktop configuration required"
