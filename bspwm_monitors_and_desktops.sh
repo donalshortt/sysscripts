@@ -55,7 +55,12 @@ configure_desktops()
             bspc monitor DP-2 -d 7 8 9
             ;;
 
-        *) echo "No special desktop configuration required"
+        krustykrab)
+            bspc monitor eDP-1 -d 1 2 3 4 5
+			;;
+        
+		*) 
+			echo "No special desktop configuration required"
             ;;
     esac
 }
