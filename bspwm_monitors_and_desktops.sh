@@ -35,8 +35,15 @@ configure_monitors()
             ;;
 
         krustykrab)
-            xrandr --output eDP-1 --mode 1920x1080 --rotate normal \
-				--output DP-1 --mode 1920x1080 --rotate normal --above eDP-1
+			connected=$(xrandr | grep "DP-1 connected" | grep -v "eDP-1")
+
+			if [[ $connected != "" ]]
+			then
+				xrandr --output eDP-1 --mode 1920x1080 --rotate normal
+			else
+				xrandr --output eDP-1 --mode 1920x1080 --rotate normal \
+					--output DP-1 --mode 1920x1080 --rotate normal --above eDP-1
+			fi
             ;;
 
         *) 
@@ -61,8 +68,8 @@ configure_desktops()
 
 			if [[ $connected != "" ]]
 			then
-            	bspc monitor eDP-1 -d 5 6 7 8 
-				bspc monitor DP-1 -d 1 2 3 4
+            	bspc monitor eDP-1 -d 1 2 3 4
+				bspc monitor DP-1 -d 5 6 7 8
 			else
 				bspc monitor eDP-1 -d 1 2 3 4 5
 			fi
