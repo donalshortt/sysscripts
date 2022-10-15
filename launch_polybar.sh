@@ -19,17 +19,28 @@ main()
 
     killall -q polybar
 
-    # Needs some work to make it portable
+	
+	connected=$(xrandr | grep "DP-1 connected" | grep -v "eDP-1")
 
+    # Needs some work to make it portable
     if type "xrandr"; then
-        for m in $(xrandr --query | grep " connected" | cut -d" " -f1); do
-            MONITOR=$m polybar --reload -q top -c /home/donal/.files/polybar/config.ini &
-        done
+        case $HOSTNAME in
+			squidward)
+				for m in $(xrandr --query | grep " connected" | cut -d" " -f1); do
+            		MONITOR=$m polybar --reload -q top -c /home/donal/.files/polybar/config.ini &
+        		done
+				;;
+			krustykrab)
+				for m in $(xrandr --query | grep " connected" | cut -d" " -f1); do
+            		MONITOR=$m polybar --reload -q top -c /home/donal/.files/polybar/configlaptop.ini &
+				done
+				;;
+		esac
     else
-        polybar --reload -q top -c /home/donal/.config/polybar/hack/config.ini &
+        polybar --reload -q main -c /home/donal/.files/polybar/config.ini &
     fi
 
-    polybar --reload -q bottom -c /home/donal/.files/polybar/config.ini &
+    polybar --reload -q main -c /home/donal/.files/polybar/config.ini &
 }
 
 main "${@}"

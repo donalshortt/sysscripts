@@ -39,10 +39,10 @@ configure_monitors()
 
 			if [[ $connected != "" ]]
 			then
-				xrandr --output eDP-1 --mode 1920x1080 --rotate normal
-			else
 				xrandr --output eDP-1 --mode 1920x1080 --rotate normal \
 					--output DP-1 --mode 1920x1080 --rotate normal --above eDP-1
+			else
+				xrandr --output eDP-1 --mode 1920x1080 --rotate normal
 			fi
             ;;
 
