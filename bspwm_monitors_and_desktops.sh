@@ -29,9 +29,9 @@ configure_monitors()
 {
     case $HOSTNAME in
         squidward) 
-            xrandr --output HDMI-1 --mode 1920x1080 --rotate normal \
-                --output HDMI-2 --primary --mode 1920x1080 --right-of HDMI-1 --rotate normal \
-                --output DP-2 --mode 1920x1080 --right-of HDMI-2 --rotate right
+            xrandr --output HDMI-A-1 --mode 1920x1080 --rotate normal \
+                --output HDMI-A-1 --primary --mode 1920x1080 --right-of HDMI-A-0 --rotate normal \
+                --output DisplayPort-1 --mode 1920x1080 --right-of HDMI-A-1 --rotate right
             ;;
 
         krustykrab)
@@ -58,9 +58,9 @@ configure_desktops()
 {
     case $HOSTNAME in
         squidward)
-            bspc monitor HDMI-1 -d 1 2 3
-            bspc monitor HDMI-2 -d 4 5 6
-            bspc monitor DP-2 -d 7 8 9
+            bspc monitor HDMI-A-0 -d 1 2 3
+            bspc monitor HDMI-A-1 -d 4 5 6
+            bspc monitor DisplayPort-1 -d 7 8 9
             ;;
 
         krustykrab)
