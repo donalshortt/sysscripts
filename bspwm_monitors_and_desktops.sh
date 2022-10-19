@@ -68,8 +68,8 @@ configure_desktops()
 
 			if [[ $connected != "" ]]
 			then
-            	bspc monitor eDP-1 -d 1 2 3 4
-				bspc monitor DP-1 -d 5 6 7 8
+            	bspc monitor eDP-1 -d 5 6 7 8
+				bspc monitor DP-1 -d 1 2 3 4
 			else
 				bspc monitor eDP-1 -d 1 2 3 4 5
 			fi
