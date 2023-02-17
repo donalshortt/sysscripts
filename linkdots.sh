@@ -25,6 +25,9 @@ linkfiles()
         echo "Did not link polybar"
     fi
 
+	ln -sf /home/donal/.files/picom.conf /home/donal/.config/picom/picom.conf
+	echo "Linked picom"
+
     if [ ! -e "/home/donal/.config/nvim" ]; then
 	    mkdir /home/donal/.config/nvim
 	    ln -s /home/donal/.files/init.vim /home/donal/.config/nvim/init.vim
@@ -44,7 +47,7 @@ linkfiles()
     echo "Linked zsh aliases"
 
     ln -sf /home/donal/.files/rofi_config.rasi /home/donal/.config/rofi/config.rasi
-    echo "Linked rofi config"
+    echo "Linked rofi"
 }
 
 main()
