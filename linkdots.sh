@@ -32,7 +32,7 @@ linkfiles()
     fi
 
     ln -sf /home/donal/.files/coc-settings.json /home/donal/.config/nvim/coc-settings.json
-    echo "Linked Coc settings"
+    echo "Linked Coc config"
 
     ln -sf /home/donal/.files/kitty.conf /home/donal/.config/kitty/kitty.conf
     echo "Linked kitty"
@@ -45,6 +45,9 @@ linkfiles()
 
     ln -sf /home/donal/.files/rofi_config.rasi /home/donal/.config/rofi/config.rasi
     echo "Linked rofi config"
+
+	ln -sf /home/donal/.files/lazygit.yml /home/donal/.config/lazygit/config.yml
+	echo "Linked lazygit config"
 }
 
 main()
