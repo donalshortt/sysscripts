@@ -25,17 +25,11 @@ linkfiles()
         echo "Did not link polybar"
     fi
 
-	ln -sf /home/donal/.files/picom.conf /home/donal/.config/picom/picom.conf
-	echo "Linked picom"
-
     if [ ! -e "/home/donal/.config/nvim" ]; then
 	    mkdir /home/donal/.config/nvim
 	    ln -s /home/donal/.files/init.vim /home/donal/.config/nvim/init.vim
 	    echo "Linked nvim"
     fi
-
-    ln -sf /home/donal/.files/coc-settings.json /home/donal/.config/nvim/coc-settings.json
-    echo "Linked Coc config"
 
     ln -sf /home/donal/.files/kitty.conf /home/donal/.config/kitty/kitty.conf
     echo "Linked kitty"
