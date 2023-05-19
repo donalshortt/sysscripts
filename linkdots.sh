@@ -8,28 +8,17 @@ usage()
 
 linkfiles()
 {
-    if [ -e "/home/donal/.config/bspwm" ]; then
-	    ln -sf /home/donal/.files/bspwmrc /home/donal/.config/bspwm/bspwmrc
-	    echo "Linked bspwmrc"
-    fi
+	ln -sf /home/donal/.files/bspwmrc /home/donal/.config/bspwm/bspwmrc
+	echo "Linked bspwmrc"
 
-    if [ -e "/home/donal/.config/sxhkd" ]; then
-	    ln -sf /home/donal/.files/sxhkdrc /home/donal/.config/sxhkd/sxhkdrc
-	    echo "Linked sxhkdrc"
-    fi
+	ln -sf /home/donal/.files/sxhkdrc /home/donal/.config/sxhkd/sxhkdrc
+	echo "Linked sxhkdrc"
 
-    if [ -e "/home/donal/.config/polybar" ]; then
-	    ln -sf /home/donal/.files/polybar_config /home/donal/.config/polybar/config
-	    echo "Linked polybar"
-    else
-        echo "Did not link polybar"
-    fi
+	ln -sf /home/donal/.files/polybar_config /home/donal/.config/polybar/config
+	echo "Linked polybar"
 
-    if [ ! -e "/home/donal/.config/nvim" ]; then
-	    mkdir /home/donal/.config/nvim
-	    ln -s /home/donal/.files/init.vim /home/donal/.config/nvim/init.vim
-	    echo "Linked nvim"
-    fi
+	ln -sf /home/donal/.files/nvim/ /home/donal/.config/
+	echo "Linked nvim"
 
     ln -sf /home/donal/.files/kitty.conf /home/donal/.config/kitty/kitty.conf
     echo "Linked kitty"
