@@ -14,7 +14,7 @@ linkfiles()
 	ln -sf /home/donal/.files/sxhkdrc /home/donal/.config/sxhkd/sxhkdrc
 	echo "Linked sxhkdrc"
 
-	ln -sf /home/donal/.files/polybar_config /home/donal/.config/polybar/config
+	ln -sf /home/donal/.files/polybar /home/donal/.config/polybar/config
 	echo "Linked polybar"
 
 	ln -sf /home/donal/.files/nvim/ /home/donal/.config/
@@ -29,7 +29,7 @@ linkfiles()
     ln -sf /home/donal/.files/zsh_aliases /home/donal/.zsh_aliases
     echo "Linked zsh aliases"
 
-    ln -sf /home/donal/.files/rofi_config.rasi /home/donal/.config/rofi/config.rasi
+    ln -sf /home/donal/.files/rofi/rofi_config.rasi /home/donal/.config/rofi/config.rasi
     echo "Linked rofi config"
 
 	ln -sf /home/donal/.files/lazygit.yml /home/donal/.config/lazygit/config.yml
