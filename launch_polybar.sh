@@ -19,16 +19,14 @@ main()
 
     killall -q polybar
 
-	
-	connected=$(xrandr | grep "DP-1 connected" | grep -v "eDP-1")
-
     # Needs some work to make it portable
     if type "xrandr"; then
         case $HOSTNAME in
-			squidward)
-				for m in $(xrandr --query | grep " connected" | cut -d" " -f1); do
-            		MONITOR=$m polybar --reload -q top -c /home/donal/.files/polybar/config.ini &
-        		done
+			hi)
+            		polybar --reload -q left -c /home/donal/.files/polybar/config.ini &
+
+					polybar --reload -q centre -c /home/donal/.files/polybar/config.ini &
+					polybar --reload -q right -c /home/donal/.files/polybar/config.ini &
 				;;
 			krustykrab)
 				for m in $(xrandr --query | grep " connected" | cut -d" " -f1); do
@@ -36,11 +34,7 @@ main()
 				done
 				;;
 		esac
-    else
-        polybar --reload -q main -c /home/donal/.files/polybar/config.ini &
     fi
-
-    polybar --reload -q main -c /home/donal/.files/polybar/config.ini &
 }
 
 main "${@}"
