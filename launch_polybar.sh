@@ -23,10 +23,9 @@ main()
     if type "xrandr"; then
         case $HOSTNAME in
 			hi)
-            		polybar --reload -q left -c /home/donal/.files/polybar/config.ini &
-
-					polybar --reload -q centre -c /home/donal/.files/polybar/config.ini &
-					polybar --reload -q right -c /home/donal/.files/polybar/config.ini &
+				polybar --reload -q left -c /home/donal/.files/polybar/config.ini &
+				polybar --reload -q centre -c /home/donal/.files/polybar/config.ini &
+				polybar --reload -q right -c /home/donal/.files/polybar/config.ini &
 				;;
 			krustykrab)
 				for m in $(xrandr --query | grep " connected" | cut -d" " -f1); do
