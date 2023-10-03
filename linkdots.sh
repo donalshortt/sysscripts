@@ -14,7 +14,7 @@ linkfiles()
 	ln -sf /home/donal/.files/sxhkdrc /home/donal/.config/sxhkd/sxhkdrc
 	echo "Linked sxhkdrc"
 
-	ln -sf /home/donal/.files/polybar /home/donal/.config/polybar/config
+	ln -sf /home/donal/.files/polybar /home/donal/.config/polybar
 	echo "Linked polybar"
 
 	ln -sf /home/donal/.files/nvim/ /home/donal/.config/

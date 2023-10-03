@@ -34,15 +34,14 @@ configure_monitors()
                 --output DisplayPort-1 --mode 1920x1080 --right-of HDMI-A-1 --rotate right
             ;;
 
-        krustykrab)
+        hoi)
 			connected=$(xrandr | grep "DP-1 connected" | grep -v "eDP-1")
 
 			if [[ $connected != "" ]]
 			then
-				xrandr --output eDP-1 --mode 1920x1080 --rotate normal \
-					--output DP-1 --mode 1920x1080 --rotate normal --above eDP-1
+				sh /home/donal/.screenlayout/uni.sh
 			else
-				xrandr --output eDP-1 --mode 1920x1080 --rotate normal
+				sh /home/donal/.screenlayout/basic_laptop.sh
 			fi
             ;;
 
@@ -63,7 +62,7 @@ configure_desktops()
             bspc monitor DisplayPort-1 -d 7 8 9
             ;;
 
-        krustykrab)
+        hoi)
 			connected=$(xrandr | grep "DP-1 connected" | grep -v "eDP-1")
 
 			if [[ $connected != "" ]]
