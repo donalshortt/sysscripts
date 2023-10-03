@@ -27,10 +27,9 @@ main()
 				polybar --reload -q centre -c /home/donal/.files/polybar/config.ini &
 				polybar --reload -q right -c /home/donal/.files/polybar/config.ini &
 				;;
-			krustykrab)
-				for m in $(xrandr --query | grep " connected" | cut -d" " -f1); do
-            		MONITOR=$m polybar --reload -q top -c /home/donal/.files/polybar/configlaptop.ini &
-				done
+			hoi)
+				polybar --reload -q top -c /home/donal/.files/polybar/config_laptop.ini &
+				polybar --reload -q bottom -c /home/donal/.files/polybar/config_laptop.ini &
 				;;
 		esac
     fi
