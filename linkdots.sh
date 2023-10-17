@@ -35,7 +35,7 @@ linkfiles()
 	ln -sf /home/donal/.files/lazygit.yml /home/donal/.config/lazygit/config.yml
 	echo "Linked lazygit config"
 
-	ln -sf /home/donal/.files/ideavim /home/donal/.ideavim
+	ln -sf /home/donal/.files/ideavimrc /home/donal/.ideavimrc
 	echo "Linked ideavim"
 }
 
