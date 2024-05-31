@@ -34,6 +34,9 @@ linkfiles()
 
 	ln -sf /home/donal/.files/lazygit.yml /home/donal/.config/lazygit/config.yml
 	echo "Linked lazygit config"
+
+	ln -sf /home/donal/.files/xprofile /home/donal/.xprofile
+	echo "Linked xprofile"
 }
 
 main()
