@@ -37,6 +37,12 @@ linkfiles()
 
 	ln -sf /home/donal/.files/xprofile /home/donal/.xprofile
 	echo "Linked xprofile"
+
+	ln -sf /home/donal/.files/ideavimrc /home/donal/.ideavimrc
+	echo "Linked ideavim"
+
+	ln -sf /home/donal/.files/gitignore /home/donal/.gitignore
+	echo "Linked gitignore"
 }
 
 main()
