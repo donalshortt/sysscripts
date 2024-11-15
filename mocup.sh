@@ -26,7 +26,7 @@ main()
     # Launching Kitty with a specific layout and running commands, keeping the shell open
     kitty -o allow_remote_control=yes -o enabled_layouts=tall sh -c \
         'kitten @ launch --type=tab --tab-title "Front" --keep-focus sh -c "cd /home/donal/projects/mocf && npm run dev; exec $SHELL" && \
-         kitten @ launch --type=tab --tab-title "Back" --keep-focus sh -c "cd /home/donal/projects/mocb && nodemon app.js; exec $SHELL" && \
+         kitten @ launch --type=tab --tab-title "Back" --keep-focus sh -c "cd /home/donal/projects/mocb && nodemon --ignore data/ app.js; exec $SHELL" && \
          kitten @ launch --type=tab --tab-title "Parser" --keep-focus sh -c "cd /home/donal/projects/mocp && cargo run; exec $SHELL"' &
 }
 
