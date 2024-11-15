@@ -8,54 +8,61 @@ usage()
 
 linkfiles()
 {
-	ln -sf /home/donal/.files/bspwmrc /home/donal/.config/bspwm/bspwmrc
+	ln -sf /home/$USER/.files/bspwmrc /home/$USER/.config/bspwm/bspwmrc
 	echo "Linked bspwmrc"
 
-	ln -sf /home/donal/.files/sxhkdrc /home/donal/.config/sxhkd/sxhkdrc
+	ln -sf /home/$USER/.files/sxhkdrc /home/$USER/.config/sxhkd/sxhkdrc
 	echo "Linked sxhkdrc"
 
-	ln -sf /home/donal/.files/polybar /home/donal/.config/polybar
+	ln -sf /home/$USER/.files/polybar /home/$USER/.config/polybar
 	echo "Linked polybar"
 
-	ln -sf /home/donal/.files/nvim/ /home/donal/.config/
+	ln -sf /home/$USER/.files/nvim/ /home/$USER/.config/
 	echo "Linked nvim"
 
-    ln -sf /home/donal/.files/kitty.conf /home/donal/.config/kitty/kitty.conf
+    ln -sf /home/$USER/.files/kitty.conf /home/$USER/.config/kitty/kitty.conf
     echo "Linked kitty"
 
-    ln -sf /home/donal/.files/zshrc /home/donal/.zshrc
+    ln -sf /home/$USER/.files/zshrc /home/$USER/.zshrc
     echo "Linked zshrc"
 
-    ln -sf /home/donal/.files/zsh_aliases /home/donal/.zsh_aliases
+    ln -sf /home/$USER/.files/zsh_aliases /home/$USER/.zsh_aliases
     echo "Linked zsh aliases"
 
-    ln -sf /home/donal/.files/rofi/ /home/donal/.config/
+    ln -sf /home/$USER/.files/rofi/ /home/$USER/.config/
     echo "Linked rofi config"
 
-	ln -sf /home/donal/.files/lazygit.yml /home/donal/.config/lazygit/config.yml
+	ln -sf /home/$USER/.files/lazygit.yml /home/$USER/.config/lazygit/config.yml
 	echo "Linked lazygit config"
 
-	ln -sf /home/donal/.files/xprofile /home/donal/.xprofile
+	ln -sf /home/$USER/.files/xprofile /home/$USER/.xprofile
 	echo "Linked xprofile"
 
-	ln -sf /home/donal/.files/ideavimrc /home/donal/.ideavimrc
+	ln -sf /home/$USER/.files/ideavimrc /home/$USER/.ideavimrc
 	echo "Linked ideavim"
 
-	ln -sf /home/donal/.files/gitignore /home/donal/.gitignore
+	ln -sf /home/$USER/.files/gitignore /home/$USER/.gitignore
 	echo "Linked gitignore"
 }
 
 main()
 {
-    while getopts ":h" options; do
+	USER="donal"
+
+    while getopts ":hu:" options; do
         case "${options}" in
         h)
             usage
             exit 0
             ;;
+		u)
+			USER=${OPTARG}
+			;;
         esac
     done
     shift "$((OPTIND - 1))"
+
+	echo "USER IS $USER"
 
     linkfiles
 
