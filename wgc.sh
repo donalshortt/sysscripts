@@ -30,8 +30,13 @@ main()
 
 format()
 {
+	REPO_ROOT=$(git rev-parse --show-toplevel)
 	FILES=$(git diff --cached --name-only)
-	/home/donal/work/formatter/bin/format.sh -s /home/donal/work/formatter/Default.xml $FILES
+	for file in $FILES; do
+		if [ -f "$REPO_ROOT/$file" ]; then
+			/home/donal/work/formatter/bin/format.sh -s /home/donal/work/formatter/Default.xml "$REPO_ROOT/$file"
+		fi
+	done
 	git commit -m "$MESSAGE" 
 }
 
