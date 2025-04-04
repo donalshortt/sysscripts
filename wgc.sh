@@ -38,7 +38,13 @@ format()
 			FILES+="$REPO_ROOT/$file "
 		fi
 	done
+
 	/home/donal/work/formatter/bin/format.sh -s /home/donal/work/formatter/Default.xml $FILES
+		
+	for file in $FILES; do
+		git add "$file"
+	done
+
 	git commit -m "$MESSAGE" 
 }
 
