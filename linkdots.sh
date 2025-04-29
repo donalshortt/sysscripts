@@ -28,8 +28,7 @@ linkfiles()
 
     ln -sf /home/$USER/.files/zsh_aliases /home/$USER/.zsh_aliases
     echo "Linked zsh aliases"
-
-    ln -sf /home/$USER/.files/rofi/ /home/$USER/.config/
+ln -sf /home/$USER/.files/rofi/ /home/$USER/.config/
     echo "Linked rofi config"
 
 	ln -sf /home/$USER/.files/lazygit.yml /home/$USER/.config/lazygit/config.yml
@@ -43,6 +42,9 @@ linkfiles()
 
 	ln -sf /home/$USER/.files/gitignore /home/$USER/.gitignore
 	echo "Linked gitignore"
+
+	ln -sf /home/$USER/.files/launch_configurations/ /home/$USER/.local/share/warp-terminal/
+	echo "Linked warp terminal launch configs"
 }
 
 main()
