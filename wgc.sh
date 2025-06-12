@@ -45,7 +45,7 @@ main()
 	done
 
 	BRANCH=$(git rev-parse --abbrev-ref HEAD)
-	TICKET=$(echo "$BRANCH" | sed -E 's#^.*/([A-Za-z]+-[0-9]+).*$#\1#')
+	TICKET=$(echo "$BRANCH" | sed -E 's#^[^/]*/([A-Za-z]+-[0-9]+).*$#\1#')
 	COMMIT_MSG="[$TICKET] $MESSAGE"
 	echo $MESSAGE
 	echo $COMMIT_MSG
