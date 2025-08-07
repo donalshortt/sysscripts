@@ -29,6 +29,7 @@ configure_monitors()
 {
     case $HOSTNAME in
         hi) 
+			# layouts and rotation of monitors
             sh ~/.screenlayout/layout.sh
 			;;
 
@@ -55,9 +56,9 @@ configure_desktops()
 {
     case $HOSTNAME in
         hi)
-            bspc monitor HDMI-A-0 -d 1 2
-            bspc monitor HDMI-A-1 -d 3 4 5 6 7
-            bspc monitor DisplayPort-1 -d 8 9
+            bspc monitor HDMI-A-0 -d 1 2 3
+            bspc monitor DisplayPort-0 -d 4 5 6
+            bspc monitor DisplayPort-1 -d 7 8 9
             ;;
 
         hoi)
