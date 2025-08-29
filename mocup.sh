@@ -2,7 +2,7 @@
 
 usage()
 {
-    echo "This is how to use the script"
+    echo "Sets up the dev environment for MOC"
 }
 
 main()
