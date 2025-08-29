@@ -1,8 +1,11 @@
 #!/bin/sh
 
+EXTERNAL_DISPLAY=$(xrandr | grep "DP-1-3 connected")
+IS_HOME=$(xrandr | grep "DP-1-1 connected")
+
 usage()
 {
-    echo "This is how to use the script"
+	echo "Configures polybar based upon the work environment (home || office)"
 }
 
 main()
@@ -28,8 +31,22 @@ main()
 				polybar --reload -q right -c /home/donal/.files/polybar/config.ini &
 				;;
 			hoi)
-				polybar --reload -q top -c /home/donal/.files/polybar/config_laptop.ini &
-				polybar --reload -q bottom -c /home/donal/.files/polybar/config_laptop.ini &
+				if [[ $EXTERNAL_DISPLAY != "" ]]
+				then
+					if [[ $IS_HOME != "" ]]
+					then
+						polybar --reload -q left -c /home/donal/.files/polybar/config_laptop_wfh.ini &
+						polybar --reload -q centre -c /home/donal/.files/polybar/config_laptop_wfh.ini &
+						polybar --reload -q right -c /home/donal/.files/polybar/config_laptop_wfh.ini &
+					else
+						polybar --reload -q left -c /home/donal/.files/polybar/config_laptop_work.ini &
+						polybar --reload -q centre -c /home/donal/.files/polybar/config_laptop_work.ini &
+						polybar --reload -q right -c /home/donal/.files/polybar/config_laptop_work.ini &
+					fi
+				else
+					polybar --reload -q top -c /home/donal/.files/polybar/config_laptop.ini &
+					polybar --reload -q bottom -c /home/donal/.files/polybar/config_laptop.ini &
+				fi			
 				;;
 		esac
     fi
