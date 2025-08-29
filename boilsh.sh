@@ -4,20 +4,32 @@ boilerplate='#!/bin/sh
 
 usage()
 {
-    echo "This is how to use the script"
+	echo "This is how to use the script"
 }
 
 main()
 {
-    while getopts ":h" options; do
-        case "${options}" in
-        h)
-            usage
-            exit 0
-            ;;
-        esac
-    done
-    shift "$((OPTIND - 1))"
+	while getopts ":h" options; do
+		case "${options}" in
+		h)
+			usage
+			exit 0
+			;;
+		\?)
+			echo "Error: Invalid option -$OPTARG"
+			echo
+			usage
+			exit 1
+			;;
+		:)
+			echo "Error: Option -$OPTARG requires an argument."
+			echo
+			usage
+			exit 1
+			;;
+		esac
+	done
+	shift "$((OPTIND - 1))"
 }
 
 main "${@}"
