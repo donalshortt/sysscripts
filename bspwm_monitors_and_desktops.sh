@@ -46,7 +46,7 @@ configure_monitors()
 					sh /home/donal/.screenlayout/work.sh
 				fi
 			else
-				sh /home/donal/.screenlayout/basic_laptop.sh
+				sh /home/donal/.screenlayout/basic.sh
 			fi
             ;;
 
