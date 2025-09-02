@@ -41,7 +41,7 @@ configure_monitors()
 			then
 				if [[ $IS_HOME != "" ]]
 				then
-					sh /home/donal/.screenlayout/home.sh
+					sh /home/donal/.screenlayout/wfh.sh
 				else
 					sh /home/donal/.screenlayout/work.sh
 				fi
