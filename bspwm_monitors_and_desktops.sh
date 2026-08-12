@@ -56,9 +56,9 @@ configure_desktops()
 {
     case $HOSTNAME in
         hi)
-            bspc monitor HDMI-A-0 -d 1 2 3
-            bspc monitor DisplayPort-0 -d 4 5 6
-            bspc monitor DisplayPort-1 -d 7 8 9
+            bspc monitor HDMI-0 -d 1 2 3
+            bspc monitor DP-2 -d 4 5 6
+            bspc monitor DP-1 -d 7 8 9
             ;;
 
         hoi)
