@@ -14,7 +14,7 @@ linkfiles()
 	ln -sf /home/$USER/.files/sxhkdrc /home/$USER/.config/sxhkd/sxhkdrc
 	echo "Linked sxhkdrc"
 
-	ln -sf /home/$USER/.files/polybar /home/$USER/.config/polybar
+	ln -sf /home/$USER/.files/polybar/ /home/$USER/.config/polybar
 	echo "Linked polybar"
 
 	ln -sf /home/$USER/.files/nvim/ /home/$USER/.config/
@@ -65,6 +65,7 @@ main()
     shift "$((OPTIND - 1))"
 
 	echo "USER IS $USER"
+	echo
 
     linkfiles
 

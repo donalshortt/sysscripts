@@ -1,5 +1,8 @@
 #!/bin/sh
 
+EXTERNAL_DISPLAY=$(xrandr | grep "DP-1-3 connected")
+IS_HOME=$(xrandr | grep "DP-1-1 connected")
+
 usage()
 {
     echo "Sets up monitor and desktop configuration for bspwm"
@@ -34,13 +37,16 @@ configure_monitors()
 			;;
 
         hoi)
-			connected=$(xrandr | grep "DP-1 connected" | grep -v "eDP-1")
-
-			if [[ $connected != "" ]]
+			if [[ $EXTERNAL_DISPLAY != "" ]]
 			then
-				sh /home/donal/.screenlayout/uni.sh
+				if [[ $IS_HOME != "" ]]
+				then
+					sh /home/donal/.screenlayout/wfh.sh
+				else
+					sh /home/donal/.screenlayout/work.sh
+				fi
 			else
-				sh /home/donal/.screenlayout/basic_laptop.sh
+				sh /home/donal/.screenlayout/basic.sh
 			fi
             ;;
 
@@ -60,14 +66,19 @@ configure_desktops()
             bspc monitor DP-2 -d 4 5 6
             bspc monitor DP-1 -d 7 8 9
             ;;
-
         hoi)
-			connected=$(xrandr | grep "DP-1 connected" | grep -v "eDP-1")
-
-			if [[ $connected != "" ]]
-			then
-            	bspc monitor eDP-1 -d 5 6 7 8
-				bspc monitor DP-1 -d 1 2 3 4
+			if [[ $EXTERNAL_DISPLAY != "" ]]
+			then			
+				if [[ $IS_HOME != "" ]]
+				then
+					bspc monitor eDP-1 -d 1 2 3
+					bspc monitor DP-1-3 -d 4 5 6
+					bspc monitor DP-1-1 -d 7 8 9
+				else
+					bspc monitor eDP-1 -d 1 2 3
+					bspc monitor DP-1-3 -d 4 5 6
+					bspc monitor DP-1-2 -d 7 8 9
+				fi
 			else
 				bspc monitor eDP-1 -d 1 2 3 4 5 6 7 8
 			fi
