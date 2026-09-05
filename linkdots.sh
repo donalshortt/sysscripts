@@ -8,6 +8,11 @@ usage()
 
 linkfiles()
 {
+	mkdir -p "/home/$USER/.config/bspwm" \
+		"/home/$USER/.config/sxhkd" \
+		"/home/$USER/.config/kitty" \
+		"/home/$USER/.config/lazygit" || exit 1
+
 	ln -sf /home/$USER/.files/bspwmrc /home/$USER/.config/bspwm/bspwmrc
 	echo "Linked bspwmrc"
 
