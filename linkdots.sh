@@ -47,9 +47,6 @@ ln -sf /home/$USER/.files/rofi/ /home/$USER/.config/
 
 	ln -sf /home/$USER/.files/gitignore /home/$USER/.gitignore
 	echo "Linked gitignore"
-
-	ln -sf /home/$USER/.files/launch_configurations/ /home/$USER/.local/share/warp-terminal/
-	echo "Linked warp terminal launch configs"
 }
 
 main()
