@@ -8,6 +8,12 @@ usage()
 
 linkfiles()
 {
+	mkdir -p "/home/$USER/.config/bspwm" \
+		"/home/$USER/.config/sxhkd" \
+		"/home/$USER/.config/kitty" \
+		"/home/$USER/.local/share/kitty/sessions" \
+		"/home/$USER/.config/lazygit" || exit 1
+
 	ln -sf /home/$USER/.files/bspwmrc /home/$USER/.config/bspwm/bspwmrc
 	echo "Linked bspwmrc"
 
@@ -28,7 +34,8 @@ linkfiles()
 
     ln -sf /home/$USER/.files/zsh_aliases /home/$USER/.zsh_aliases
     echo "Linked zsh aliases"
-ln -sf /home/$USER/.files/rofi/ /home/$USER/.config/
+
+	ln -sf /home/$USER/.files/rofi/ /home/$USER/.config/
     echo "Linked rofi config"
 
 	ln -sf /home/$USER/.files/lazygit.yml /home/$USER/.config/lazygit/config.yml
@@ -42,12 +49,6 @@ ln -sf /home/$USER/.files/rofi/ /home/$USER/.config/
 
 	ln -sf /home/$USER/.files/gitignore /home/$USER/.gitignore
 	echo "Linked gitignore"
-
-	ln -sf /home/$USER/.files/launch_configurations/ /home/$USER/.local/share/warp-terminal/
-	echo "Linked warp terminal launch configs"
-
-	mkdir -p /home/$USER/.local/share/kitty/sessions
-	echo "Created sessions dir"
 }
 
 main()
