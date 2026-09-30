@@ -45,6 +45,9 @@ ln -sf /home/$USER/.files/rofi/ /home/$USER/.config/
 
 	ln -sf /home/$USER/.files/launch_configurations/ /home/$USER/.local/share/warp-terminal/
 	echo "Linked warp terminal launch configs"
+
+	mkdir -p /home/$USER/.local/share/kitty/sessions
+	echo "Created sessions dir"
 }
 
 main()
