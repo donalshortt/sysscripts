@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-# Rerun failed GitHub Actions jobs for a pull request.
+# Rerun failed or cancelled GitHub Actions jobs for a pull request.
 set -euo pipefail
 
 if [[ ${1:-} == -h || ${1:-} == --help ]]; then
     cat <<'EOF'
 Usage: rerun.sh [PR_NUMBER|PR_URL|BRANCH] [-R OWNER/REPO]
 
-Rerun failed jobs across a PR's workflows. With no argument, use the
+Rerun failed or cancelled jobs across a PR's workflows. With no argument, use the
 current branch's PR. Workflows still running are skipped; try again later.
 
 Examples:
@@ -41,14 +41,14 @@ fi
 # Ignore checks from external CI providers and deduplicate workflow runs.
 runs=$(jq -r '
     if type != "array" then error("Expected a list of PR checks") else
-        [.[] | select(.bucket == "fail") | .link // empty
+        [.[] | select(.bucket == "fail" or .bucket == "cancel") | .link // empty
          | capture("^https://(?<repo>[^/]+/[^/]+/[^/]+)/actions/runs/(?<id>[0-9]+)(?:/|$)")
          | [.repo, .id]] | unique | .[] | @tsv
     end
 ' <<< "$checks")
 
 if [[ -z $runs ]]; then
-    printf 'No failed GitHub Actions jobs found.\n'
+    printf 'No failed or cancelled GitHub Actions jobs found.\n'
     exit 0
 fi
 
@@ -65,7 +65,7 @@ while IFS=$'\t' read -r repo run_id; do
         skipped_count=$((skipped_count + 1))
         continue
     fi
-    printf 'Rerunning failed jobs in %s, run %s...\n' "$repo" "$run_id"
+    printf 'Rerunning failed or cancelled jobs in %s, run %s...\n' "$repo" "$run_id"
     if gh run rerun "$run_id" --repo "$repo" --failed; then
         rerun_count=$((rerun_count + 1))
     else
