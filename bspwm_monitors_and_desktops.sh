@@ -63,8 +63,8 @@ configure_desktops()
     case $HOSTNAME in
         hi)
             bspc monitor HDMI-0 -d 1 2 3
-            bspc monitor DP-2 -d 4 5 6
-            bspc monitor DP-1 -d 7 8 9
+            bspc monitor DP-5 -d 4 5 6
+            bspc monitor DP-2 -d 7 8 9
             ;;
         hoi)
 			if [[ $EXTERNAL_DISPLAY != "" ]]
