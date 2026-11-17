@@ -1,7 +1,7 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-EXTERNAL_DISPLAY=$(xrandr | grep "DP-1-3 connected")
-IS_HOME=$(xrandr | grep "DP-1-1 connected")
+IS_WORK=$(xrandr | grep "DP-2 connected")
+HOSTNAME=$(hostname)
 
 usage()
 {
@@ -32,21 +32,18 @@ configure_monitors()
 {
     case $HOSTNAME in
         hi) 
-			# layouts and rotation of monitors
             sh ~/.screenlayout/layout.sh
 			;;
 
-        hoi)
-			if [[ $EXTERNAL_DISPLAY != "" ]]
+		hoi)
+			sh /home/donal/.screenlayout/basic.sh
+			;;
+		donal-thinkpad)
+			if [[ $IS_WORK != "" ]]
 			then
-				if [[ $IS_HOME != "" ]]
-				then
-					sh /home/donal/.screenlayout/wfh.sh
-				else
-					sh /home/donal/.screenlayout/work.sh
-				fi
+				sh /home/donal/.screenlayout/work.sh
 			else
-				sh /home/donal/.screenlayout/basic.sh
+				sh /home/donal/.screenlayout/wfh.sh
 			fi
             ;;
 
@@ -66,21 +63,18 @@ configure_desktops()
             bspc monitor DP-5 -d 4 5 6
             bspc monitor DP-2 -d 7 8 9
             ;;
-        hoi)
-			if [[ $EXTERNAL_DISPLAY != "" ]]
-			then			
-				if [[ $IS_HOME != "" ]]
-				then
-					bspc monitor eDP-1 -d 1 2 3
-					bspc monitor DP-1-3 -d 4 5 6
-					bspc monitor DP-1-1 -d 7 8 9
-				else
-					bspc monitor eDP-1 -d 1 2 3
-					bspc monitor DP-1-3 -d 4 5 6
-					bspc monitor DP-1-2 -d 7 8 9
-				fi
+		hoi)
+			bspc monitor eDP-1 -d 1 2 3 4 5 6 7 8
+			;;
+		donal-thinkpad)
+			if [[ $IS_WORK != "" ]]
+			then
+				bspc monitor DP-2 -d 1 2 3 4 5 6 7
+				bspc monitor eDP-1 -d 8 9
 			else
-				bspc monitor eDP-1 -d 1 2 3 4 5 6 7 8
+				bspc monitor eDP-1 -d 1 2 3
+				bspc monitor DP-2-3 -d 4 5 6 
+				bspc monitor DP-2-1 -d 7 8 9
 			fi
 			;;
         

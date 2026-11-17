@@ -1,7 +1,7 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-EXTERNAL_DISPLAY=$(xrandr | grep "DP-1-3 connected")
-IS_HOME=$(xrandr | grep "DP-1-1 connected")
+IS_WORK=$(xrandr | grep "DP-2 connected")
+HOSTNAME=$(hostname)
 
 usage()
 {
@@ -31,21 +31,18 @@ main()
 				polybar --reload -q right -c /home/donal/.files/polybar/config.ini &
 				;;
 			hoi)
-				if [[ $EXTERNAL_DISPLAY != "" ]]
+				polybar --reload -q centre -c /home/donal/.files/polybar/config_laptop_basic.ini &
+				;;
+			donal-thinkpad)
+				if [[ $IS_WORK != "" ]]
 				then
-					if [[ $IS_HOME != "" ]]
-					then
-						polybar --reload -q left -c /home/donal/.files/polybar/config_laptop_wfh.ini &
-						polybar --reload -q centre -c /home/donal/.files/polybar/config_laptop_wfh.ini &
-						polybar --reload -q right -c /home/donal/.files/polybar/config_laptop_wfh.ini &
-					else
-						polybar --reload -q left -c /home/donal/.files/polybar/config_laptop_work.ini &
-						polybar --reload -q centre -c /home/donal/.files/polybar/config_laptop_work.ini &
-						polybar --reload -q right -c /home/donal/.files/polybar/config_laptop_work.ini &
-					fi
+					polybar --reload -q left -c /home/donal/.files/polybar/config_laptop_work.ini &
+					polybar --reload -q right -c /home/donal/.files/polybar/config_laptop_work.ini &
 				else
-					polybar --reload -q centre -c /home/donal/.files/polybar/config_laptop_basic.ini &
-				fi			
+					polybar -l info --reload -q left -c /home/donal/.files/polybar/config_laptop_wfh.ini &
+					polybar --reload -q centre -c /home/donal/.files/polybar/config_laptop_wfh.ini &
+					polybar --reload -q right -c /home/donal/.files/polybar/config_laptop_wfh.ini &
+				fi
 				;;
 		esac
     fi
