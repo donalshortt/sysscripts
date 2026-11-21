@@ -27,6 +27,7 @@ TOKEN_FILE = Path.home() / ".config" / "rgame" / "token"
 MESSAGE_LIMIT = 65536
 SYNC_TIMEOUT = 300
 IDENTIFIER = re.compile(r"[a-f0-9]{32}")
+RSYNC_PROGRESS = re.compile(r"^\s*[0-9,]+B?\s+(\d{1,3})%\s+(\S+/s)\s+([0-9:?]+)(?:\s|$)")
 SSH_TRANSPORT = (
     "ssh -o BatchMode=yes -o ConnectTimeout=8 -o ClearAllForwardings=yes "
     "-o ControlMaster=no -o ControlPath=none"
@@ -51,9 +52,8 @@ def private_bundle_root():
     return root
 
 
-def receive(connection):
-    with connection.makefile("rb") as stream:
-        message = stream.readline(MESSAGE_LIMIT + 1)
+def receive(stream):
+    message = stream.readline(MESSAGE_LIMIT + 1)
     if len(message) > MESSAGE_LIMIT or not message.endswith(b"\n"):
         raise ValueError("Incomplete or oversized rgame message.")
     value = json.loads(message)
@@ -69,15 +69,36 @@ def send(connection, value):
     connection.sendall(message)
 
 
+def show_transfer_progress(percent, status):
+    columns = max(1, shutil.get_terminal_size((80, 24)).columns - 1)
+    width = min(24, max(5, columns - 34))
+    filled = percent * width // 100
+    bar = "#" * filled + "-" * (width - filled)
+    line = f"Transfer [{bar}] {percent:3}%  {status}"
+    print("\r" + line[:columns].ljust(columns), end="", file=sys.stderr, flush=True)
+
+
 def request(operation, **fields):
     try:
         connection = socket.create_connection(("127.0.0.1", PORT), timeout=3)
     except OSError as error:
         raise RuntimeError("Launcher is unreachable. Reconnect from the desktop with ssh lap.") from error
-    with connection:
+    show_progress = operation == "launch" and sys.stderr.isatty()
+    drew_progress = False
+    with connection, connection.makefile("rb") as stream:
         connection.settimeout(SYNC_TIMEOUT + 30)
-        send(connection, {"operation": operation, "token": token(), **fields})
-        reply = receive(connection)
+        send(connection, {"operation": operation, "token": token(), "progress": show_progress, **fields})
+        try:
+            reply = receive(stream)
+            while "progress" in reply:
+                if show_progress:
+                    percent, status = reply["progress"]
+                    show_transfer_progress(percent, status)
+                    drew_progress = True
+                reply = receive(stream)
+        finally:
+            if drew_progress:
+                print(file=sys.stderr, flush=True)
     if not reply.get("ok"):
         raise RuntimeError(reply.get("error", "The desktop launcher rejected the request."))
     return reply["message"]
@@ -126,6 +147,48 @@ def checked(command, **kwargs):
     return result.stdout
 
 
+def transfer_bundle(command, report):
+    if report is None:
+        checked(command, timeout=SYNC_TIMEOUT)
+        return
+
+    report(0, "Checking cached files")
+    command = [
+        "timeout", "--kill-after=5s", f"{SYNC_TIMEOUT}s",
+        command[0], "--info=progress2,name0", "--no-inc-recursive", "--outbuf=N",
+        *command[1:],
+    ]
+    percent = 0
+    previous = None
+    with tempfile.TemporaryFile() as errors, subprocess.Popen(
+        command, stdout=subprocess.PIPE, stderr=errors, env={**os.environ, "LC_ALL": "C"},
+        text=True, encoding="utf-8", errors="replace",
+    ) as process:
+        try:
+            for line in process.stdout:
+                match = RSYNC_PROGRESS.match(line)
+                if match:
+                    percent = max(percent, min(99, int(match[1])))
+                    status = match[2]
+                    if "(xfr#" not in line:
+                        status += f"  ETA {match[3]}"
+                    update = (percent, status)
+                    if update != previous:
+                        report(*update)
+                        previous = update
+            result = process.wait()
+        finally:
+            if process.poll() is None:
+                process.terminate()
+        if result in {124, 137}:
+            raise RuntimeError(f"rsync timed out after {SYNC_TIMEOUT} seconds.")
+        if result:
+            errors.seek(0)
+            detail = errors.read(8192).decode(errors="replace").strip()
+            raise RuntimeError(f"rsync failed: {detail or result}")
+    report(100, "Complete")
+
+
 def start_game(bundle, unit, arguments):
     environment = {**os.environ, "LC_ALL": "C", "LD_LIBRARY_PATH": str(bundle / "lib")}
     if not (bundle / "assets").is_dir():
@@ -159,7 +222,7 @@ def prune_completed(bundles, current):
             shutil.rmtree(previous)
 
 
-def pull_and_launch(build_id, source_uid, arguments):
+def pull_and_launch(build_id, source_uid, arguments, report=None):
     bundles = private_bundle_root() / "local"
     bundles.mkdir(mode=0o700, exist_ok=True)
     newest = bundles / "current"
@@ -176,7 +239,7 @@ def pull_and_launch(build_id, source_uid, arguments):
                 sync.extend(["--link-dest", str(newest.resolve())])
             source = bundle_root(source_uid) / "outgoing" / build_id
             sync.extend([f"{HOST}:{source}/", str(staged) + "/"])
-            checked(sync, timeout=SYNC_TIMEOUT)
+            transfer_bundle(sync, report)
             staged.rename(destination)
             try:
                 start_game(destination, unit, arguments)
@@ -194,10 +257,10 @@ def pull_and_launch(build_id, source_uid, arguments):
 
 
 def serve():
-    with socket.socket(fileno=0) as connection:
+    with socket.socket(fileno=0) as connection, connection.makefile("rb") as stream:
         connection.settimeout(5)
         try:
-            message = receive(connection)
+            message = receive(stream)
             supplied = message.get("token")
             if not isinstance(supplied, str) or not hmac.compare_digest(supplied.encode(), token().encode()):
                 raise RuntimeError("Unauthorized rgame request.")
@@ -217,7 +280,11 @@ def serve():
                     not isinstance(argument, str) or "\0" in argument for argument in arguments
                 ):
                     raise ValueError("Invalid game arguments.")
-                result = pull_and_launch(build_id, source_uid, arguments)
+                report = None
+                if message.get("progress") is True:
+                    def report(percent, status):
+                        send(connection, {"progress": [percent, status]})
+                result = pull_and_launch(build_id, source_uid, arguments, report)
             else:
                 raise ValueError("Unknown rgame operation.")
             send(connection, {"ok": True, "message": result})
