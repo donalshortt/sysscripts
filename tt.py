@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Open the current directory on lap in a new tab of the SSH client's Kitty."""
+"""Open the current directory on lap in a new Kitty tab backed by Screen."""
 
 import argparse
 import errno
@@ -9,6 +9,7 @@ from pathlib import Path
 import re
 import shlex
 import sys
+from uuid import uuid4
 
 
 DCS = b"\x1bP"
@@ -90,7 +91,11 @@ def main():
 
     try:
         directory = Path.cwd()
-        command = f'cd -- {shlex.quote(str(directory))} && exec "${{SHELL:-/bin/sh}}" -l'
+        session = f"resume-{uuid4().hex}"
+        command = (
+            f"cd -- {shlex.quote(str(directory))} || cd; "
+            f"exec ~/.local/bin/screen5 -q -d -R -S {session}"
+        )
         request = {
             "cmd": "launch",
             "version": [0, 26, 0],
